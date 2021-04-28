@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wear/wear.dart';
+
 import 'dart:io';
 
 class RootPage extends StatefulWidget {
@@ -35,27 +37,32 @@ class _RootPageStateState extends State<RootPage> {
         title: Text('Startup Name Generator'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () =>
-                    {Navigator.of(context).pushNamed("/myaccount")},
-                child: Text("進む", style: TextStyle(fontSize: 10))),
-            Text(
-              'OS: $_os, \nVer:$_osVer, \nlocal:$_localName',
-            ),
-            TextButton(
-              onPressed: () => {print("ボタンがおされたよ")},
-              child: Text("log出力ボタン"),
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            Text('$_type', style: TextStyle(fontSize: 20, color: Colors.red))
-          ],
-        ),
+        child: WatchShape(builder: (context, shape, child) {
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Shape: ${shape == WearShape.round ? 'round' : 'square'}',
+                ),
+                TextButton(
+                    onPressed: () =>
+                        {Navigator.of(context).pushNamed("/myaccount")},
+                    child: Text("進む", style: TextStyle(fontSize: 10))),
+                Text(
+                  'OS: $_os, \nVer:$_osVer, \nlocal:$_localName',
+                ),
+                TextButton(
+                  onPressed: () => {print("ボタンがおされたよ")},
+                  child: Text("log出力ボタン"),
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text('$_type',
+                    style: TextStyle(fontSize: 20, color: Colors.red))
+              ]);
+        }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
