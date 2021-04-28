@@ -1,5 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_sandox">
+   <application>
+    <!-- Required for ambient mode support -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Flags the app as a Wear app -->
+    <uses-feature android:name="android.hardware.type.watch" />
+    <meta-data
+        android:name="com.google.android.wearable.standalone"
+        android:value="true" />
+   </application>
    <application
         android:label="flutter_sandox"
         android:icon="@mipmap/ic_launcher">
@@ -37,5 +46,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+        </application>
 </manifest>

@@ -4,55 +4,34 @@
 
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter/material.dart';
+import 'package:wear/wear.dart';
+import 'package:flutter_sandox/screens/ambient_screen.dart';
+import 'package:flutter_sandox/screens/start_screen.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
-    return MaterialApp(title: 'Startup Name Generator', home: RandomWords());
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Flutter Wear App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: WatchScreen(),
+        debugShowCheckedModeBanner: false,
+      );
 }
 
-class RandomWords extends StatefulWidget {
+class WatchScreen extends StatelessWidget {
   @override
-  _RandomWordsState createState() => _RandomWordsState();
-}
-
-class _RandomWordsState extends State<RandomWords> {
-  final _suggestions = <WordPair>[];
-  final _biggerFont = TextStyle(fontSize: 18.0);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Startup Name Generator'),
-      ),
-      body: _buildSuggestions(),
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemBuilder: /*1*/ (context, i) {
-          if (i.isOdd) return Divider(); /*2*/
-
-          final index = i ~/ 2; /*3*/
-          if (index >= _suggestions.length) {
-            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-          }
-          return _buildRow(_suggestions[index]);
-        });
-  }
-
-  Widget _buildRow(WordPair pair) {
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => WatchShape(
+        builder: (context, shape) => InheritedShape(
+          shape: shape,
+          child: AmbientMode(
+            builder: (context, mode) =>
+                mode == Mode.active ? StartScreen() : AmbientWatchFace(),
+          ),
+        ),
+      );
 }
